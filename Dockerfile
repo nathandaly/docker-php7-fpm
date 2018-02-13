@@ -5,7 +5,7 @@
 # Pull base image.
 FROM linxlad/nginx
 
-MAINTAINER Nathan Daly <nathand@openobjects.com>
+LABEL Nathan Daly <justlikephp@gmail.com>
 
 # No tty
 ENV DEBIAN_FRONTEND noninteractive
