@@ -17,11 +17,26 @@ RUN apt-get update && \
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 RUN sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 
-RUN apt-get update && apt-cache search php7
+RUN apt-get update
 
 # Install PHP
-RUN apt-get -y --force-yes install php7.2-cli php7.2-fpm php7.2-dev php7.2-mbstring \
-    php7.2-bz2 php7.2-xml php7.2-common php7.2-mysql php7.2-intl php-pear
+RUN apt-get -y --force-yes install \
+    php7.2-cli \
+    php7.2-fpm \
+    php7.2-dev \
+    php7.2-mbstring \
+    php7.2-bz2 \
+    php7.2-xml \
+    php7.2-common \
+    php7.2-dev \
+    php7.2-mysql \
+    php7.2-intl \
+    php7.2-zip \
+    libmcrypt-dev \
+    php-pear
+
+# Install XDebug
+RUN pear config-set preferred_state alpha && pecl install xdebug
 
 # Phalcon
 RUN curl -s "https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh" | bash && \
@@ -59,11 +74,11 @@ RUN sed -i '/^listen /c \
 
 RUN sed -i 's/^listen.allowed_clients/;listen.allowed_clients/' /etc/php/7.2/fpm/pool.d/www.conf
 
+COPY xdebug.ini /etc/php/7.2/mods-available/xdebug.ini
 RUN sed -i "s/xdebug\.remote_host\=.*/xdebug\.remote_host\=$XDEBUG_HOST/g" /etc/php/7.2/mods-available/xdebug.ini
 RUN echo "#!/bin/bash\n/etc/init.d/php7.2-fpm start && nginx" >> /run.sh
 RUN chmod a+x /run.sh
 
-COPY xdebug.ini /etc/php/7.2/mods-available/xdebug.ini
 COPY run.sh /run.sh
 RUN chmod a+x /run.sh
 
