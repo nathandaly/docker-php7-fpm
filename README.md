@@ -1,4 +1,4 @@
-# Drupal 8 PHP-FPM Dockerfile
+# Phalcon 3 PHP-FPM Dockerfile
 
 ## Build image
 
