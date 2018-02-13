@@ -10,14 +10,17 @@ LABEL Nathan Daly <justlikephp@gmail.com>
 # No tty
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN add-apt-repository ppa:ondrej/php && apt-get update && \
+RUN apt-get update && \
     apt-get -y install software-properties-common && \
-    apt-get update
+    apt-get update && apt-get -y install apt-transport-https && apt-get update
 
-RUN apt-cache search php7
+RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+RUN sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+
+RUN apt-get update && apt-cache search php7
 
 # Install PHP
-RUN apt-get -y --force-yes install php7.2-cli php7.2-fpm php7.2-dev php7.2-mcrypt php7.2-mbstring \
+RUN apt-get -y --force-yes install php7.2-cli php7.2-fpm php7.2-dev php7.2-mbstring \
     php7.2-bz2 php7.2-xml php7.2-common php7.2-mysql php7.2-intl php-pear
 
 # Phalcon
