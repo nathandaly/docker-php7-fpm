@@ -1,4 +1,4 @@
-# Drupal 8 PHP-FPM Dockerfile
+# PHP-FPM 7.2 Dockerfile
 
 ## Build image
 
