@@ -17,11 +17,21 @@ RUN apt-get update && \
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 RUN sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 
-RUN apt-get update && apt-cache search php7
-
 # Install PHP
-RUN apt-get -y --force-yes install php7.2-cli php7.2-fpm php7.2-dev php7.2-mbstring \
-    php7.2-bz2 php7.2-xml php7.2-common php7.2-mysql php7.2-intl php-pear
+RUN apt-get -y --force-yes install \
+    php7.2-cli \
+    php7.2-fpm \
+    php7.2-dev \
+    php7.2-mbstring \
+    php7.2-bz2 \
+    php7.2-xml \
+    php7.2-common \
+    php7.2-dev \
+    php7.2-mysql \
+    php7.2-intl \
+    php7.2-zip \
+    libmcrypt-dev \
+    php-pear
 
 # Phalcon
 RUN curl -s "https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh" | bash && \
